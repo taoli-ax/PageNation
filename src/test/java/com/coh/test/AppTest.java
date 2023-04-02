@@ -17,5 +17,6 @@ public class AppTest {
         CupService cupService =(CupService) applicationContext.getBean("cupServiceImpl");
         List<Cup> cupList=cupService.findAll();
         System.out.println(cupList);
+        System.out.println("hello world");
     }
 }
