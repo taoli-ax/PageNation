@@ -3,20 +3,36 @@
 <head>
     <title>Title</title>
     <script src="js/jquery-3.6.4.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet"  href="css/bootstrap.min.css">
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet"  href="css/bootstrap/bootstrap.min.css">
 </head>
 </head>
 <body>
-    <div class="container">
-        <table class="table" >
-            <thead>
-                <tr>
-                    <th scope="col">id</th>
-                    <th scope="col">name</th>
-                    <th scope="col">brand</th>
-                </tr>
+<div class="container">
+    <form >
+        <div class="form-row">
+            <div class="col">
+                <label for="CupName" >Cup Name</label>
+                <input type="text" name="cupname" class="form-control" id="CupName" >
+
+            </div>
+            <div class="col">
+                <label for="CupBrand" >Cup Brand</label>
+                <input class="form-control" id="CupBrand" name="cupbrand" >
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-primary mb-2 m-1" onclick="show(1)">Confirm</button>
+    </form>
+
+        <table class="table table-hover" >
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">name</th>
+                <th scope="col">brand</th>
+            </tr>
             </thead>
             <tbody id="tbody">
 
@@ -27,16 +43,13 @@
         </table>
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-                <!--                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>-->
-                <!--                        <li class="page-item"><a class="page-link" href="#">1</a></li>-->
-                <!--                        <li class="page-item"><a class="page-link" href="#">2</a></li>-->
-                <!--                        <li class="page-item"><a class="page-link" href="#">3</a></li>-->
-                <!--                        <li class="page-item"><a class="page-link" href="#">Next</a></li>-->
             </ul>
         </nav>
 
 
-    </div>
+
+</div>
+
 </body>
 <script>
     $(document).ready(function (){
@@ -46,10 +59,12 @@
     )
     function show(pageNum){
         $.ajax({
-            url:"cup?method=findByPage",
+            url:"cup?method=queryByPage",
             type:"get",
             data:{
-                "pageNumber":pageNum
+                "PageNum":pageNum,
+                "CupBrand":$("#CupBrand").val(),
+                "CupName":$("#CupName").val()
             },
             dataType:"json",
             success:function (msg){

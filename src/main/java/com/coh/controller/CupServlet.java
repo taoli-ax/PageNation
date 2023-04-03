@@ -51,6 +51,8 @@ public class CupServlet extends HttpServlet {
                 break;
             case "findByPage":
                 findByPage(req,resp);
+            case "queryByPage":
+                queryByPage(req,resp);
         }
     }
     private void findByPage(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -62,6 +64,30 @@ public class CupServlet extends HttpServlet {
         PageInfo pageInfo=new PageInfo();
         pageInfo.setPageNumber(pageNum);
         List<Cup> cups=cupService.findByPage(pageInfo);
+        Map<String ,Object> map=new HashMap<>();
+        map.put("pageInfo",pageInfo);
+        map.put("cups",cups);
+
+        String string =JSON.toJSONString(map);
+        PrintWriter printWriter=resp.getWriter();
+        printWriter.println(string);
+        printWriter.flush();
+        printWriter.close();
+    }
+
+    private void queryByPage(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String pageNumber=req.getParameter("PageNum");
+        String CupName=req.getParameter("CupName");
+        String CupBrand=req.getParameter("CupBrand");
+        System.out.println("获取参数pageNum:"+pageNumber+" cupName: "+CupName+" cupBrand:"+CupBrand);
+        int pageNum = 1;
+        if(pageNumber!=null && !"".equals(pageNumber)){
+            pageNum=Integer.parseInt(pageNumber);
+        }
+        PageInfo pageInfo=new PageInfo();
+        pageInfo.setPageNumber(pageNum);
+        List<Cup> cups=cupService.queryByPage(pageInfo,CupBrand,CupName);
+        System.out.println("查询结果："+cups);
         Map<String ,Object> map=new HashMap<>();
         map.put("pageInfo",pageInfo);
         map.put("cups",cups);
